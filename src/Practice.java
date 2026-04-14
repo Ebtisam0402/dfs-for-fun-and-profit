@@ -152,8 +152,34 @@ public class Practice {
    * @return true if all reachable vertices hold odd values, false otherwise
    */
   public boolean allOdd(Vertex<Integer> vertex) {
-    return true;
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return allOdd(vertex, visited);
+    
   }
+  private boolean allOdd(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
+    if (vertex == null) {
+        return true;
+    }
+
+    if (visited.contains(vertex)) {
+        return true;
+    }
+
+    // check if even
+    if (vertex.data % 2 == 0) {
+        return false;
+    }
+
+    visited.add(vertex);
+
+    for (Vertex<Integer> neighbor : vertex.neighbors) {
+        if (!allOdd(neighbor, visited)) {
+            return false;
+        }
+    }
+
+    return true;
+}
 
   /**
    * Determines whether there exists a strictly increasing path from the given start vertex
