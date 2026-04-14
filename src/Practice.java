@@ -77,8 +77,29 @@ public class Practice {
    * @return The maximum value of any reachable vertex, or Integer.MIN_VALUE if vertex is null.
    */
   public int max(Vertex<Integer> vertex) {
-    return -1;
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return max(vertex, visited);
   }
+  private int max(Vertex<Integer> vertex, Set<Vertex<Integer>> visited) {
+    if (vertex == null) {
+        return Integer.MIN_VALUE;
+    }
+
+    if (visited.contains(vertex)) {
+        return Integer.MIN_VALUE;
+    }
+
+    visited.add(vertex);
+
+    int maxValue = vertex.data;
+
+    for (Vertex<Integer> neighbor : vertex.neighbors) {
+        int neighborMax = max(neighbor, visited);
+        maxValue = Math.max(maxValue, neighborMax);
+    }
+
+    return maxValue;
+}
 
   /**
    * Returns a set of all leaf vertices reachable from the given starting vertex.
